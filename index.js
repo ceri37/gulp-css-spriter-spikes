@@ -59,7 +59,9 @@ var spriter = function(options) {
 		'spritesmithOptions': {},
 		// Used to format output CSS
 		// You should be using a separate beautifier plugin
-		'outputIndent': '\t'
+		'outputIndent': '\t',
+
+		'resourceRoot': null
 	};
 
 	var settings = extend({}, defaults, options);
@@ -118,7 +120,11 @@ var spriter = function(options) {
 
 				// Match each background image in the declaration (there could be multiple background images per value)
 				spriterUtil.matchBackgroundImages(declaration.value, function(imagePath) {
-					imagePath = path.join(path.dirname(chunk.path), imagePath);
+                    if (settings.resourceRoot != null && imagePath.substr(0, 1) == '/') {
+                        imagePath = path.join(chunk.cwd, settings.resourceRoot, imagePath);
+                    } else {
+					    imagePath = path.join(path.dirname(chunk.path), imagePath);
+                    }
 
 					// If not already in the overall list of images collected
 					// Add to the queue/list of images to be verified
@@ -222,7 +228,7 @@ var spriter = function(options) {
 								var transformedChunk = chunk.clone();
 
 								try {
-									transformedChunk = transformFileWithSpriteSheetData(transformedChunk, result.coordinates, settings.pathToSpriteSheetFromCSS, settings.includeMode, settings.silent, settings.outputIndent);
+									transformedChunk = transformFileWithSpriteSheetData(transformedChunk, result.coordinates, settings.pathToSpriteSheetFromCSS, settings.includeMode, settings.silent, settings.outputIndent, settings.resourceRoot);
 								}
 								catch(err) {
 									err.message = 'Something went wrong when transforming chunks: ' + err.message;
