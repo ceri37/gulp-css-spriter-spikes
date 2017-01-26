@@ -228,7 +228,7 @@ var spriter = function(options) {
 								var transformedChunk = chunk.clone();
 
 								try {
-									transformedChunk = transformFileWithSpriteSheetData(transformedChunk, result.coordinates, settings.pathToSpriteSheetFromCSS, settings.includeMode, settings.silent, settings.outputIndent, settings.resourceRoot);
+									transformedChunk = transformFileWithSpriteSheetData(transformedChunk, result.coordinates, settings.pathToSpriteSheetFromCSS, settings.includeMode, settings.silent, settings.outputIndent, settings.resourceRoot, result.properties);
 								}
 								catch(err) {
 									err.message = 'Something went wrong when transforming chunks: ' + err.message;
