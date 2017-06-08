@@ -83,6 +83,8 @@ var spriter = function(options) {
 		// chunk.path
 		// chunk.contents
 
+		var self = this;
+
 
 		if (chunk.isStream()) {
 			self.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Cannot operate on stream'));
